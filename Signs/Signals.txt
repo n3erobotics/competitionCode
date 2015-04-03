@@ -1,0 +1,9 @@
+red_x.png
+yellow_left_arrow.png
+yellow_right_arrow.png
+green_up_arrow.png
+red_x3.png
+red_x4.png
+red_x9.jpg
+red_x8.jpg
+red_x7.jpg

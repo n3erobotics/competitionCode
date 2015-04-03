@@ -1,0 +1,54 @@
+void find_first_object(bool position){
+	bool first_line=false;
+
+	if(position){
+		while(!first_line){
+			message.str("");
+			message << "sl50";
+			serialPort.sendArray(message.str(), message.tellp());
+			message.str("");
+			message << "mf150";
+			serialPort.sendArray(message.str(), message.tellp());
+			image=get_frame(webcamL);
+			flip(image,image, 0);
+			finding_objects(image);
+			imshow("Draw", drawing);
+			waitKey(1);
+			//First recognition of line2follow
+			for(size_t i=0; i<height/3; i++){
+				cout << i << endl;
+				Vec3b color = drawing.at<Vec3b>(Point(580,i));
+				//if he detects white
+				if(color.val[0]==255){
+					int N=objects.size()-1;
+					// the object in the right up corner gets caught
+					for( size_t j = 0; j<objects.size(); j++ ){
+						cout << "for: " << N-j << endl;
+						if(objects.at(N-j).at(Y)<(height/3)){
+							last_line2follow=objects.at(N-j);
+							line2follow=objects.at(N-j);
+							first_line=true;
+							break;
+						}
+					}
+				}
+			}
+
+
+		}
+	}else{
+		while(!first_line){
+			image=get_frame(webcamR);
+			cout << "Finding Objects for the first time!" << endl;
+			finding_objects(image);
+			//First recognition of line2follow
+			for( size_t i = 0; i< objects.size(); i++ ){
+				if(objects.at(i).at(TETA)>40){
+					last_line2follow=objects.at(i);
+					line2follow=objects.at(i);
+					first_line=true;
+					break;
+				}
+			}
+		}
+	}
